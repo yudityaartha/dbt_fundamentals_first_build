@@ -34,6 +34,9 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   jaffle_shop:
-    +materialized: table
+    staging: 
+      +materialized: view #usually intermediate tables are materialized as views, but it can be changed to table if needed
+    marts:
+      +materialized: table #final tables are usually materialized as tables, but it can be changed to view if needed
 
     
