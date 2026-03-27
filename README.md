@@ -434,7 +434,7 @@ default:
 | `dbt_project.yml` | project root | YES | project name, paths, materialization defaults |
 | `sources.yml` | inside `models/` | YES | declares raw tables as dbt sources |
 
-![image.png](dbt Fundamentals/image 17.png)
+![image.png](dbt%20Fundamentals/image%2017.png)
 
 ### How they connect
 
