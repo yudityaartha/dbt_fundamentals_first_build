@@ -55,7 +55,7 @@ dbt coordinates how data is transformed, tested, and documented across systems
 
 ![image.png](dbt%20Fundamentals/image%204.png)
 
-dbt coordinate 6 key activities ( I dont understand the illustations above, it should be the elaboration of previous image about data control plane)
+dbt coordinate 6 key activities 
 
 ## dbt Project Structure
 
@@ -433,6 +433,8 @@ default:
 | `profiles.yml` | `~/.dbt/` (home dir) | NO | BigQuery credentials, target dataset |
 | `dbt_project.yml` | project root | YES | project name, paths, materialization defaults |
 | `sources.yml` | inside `models/` | YES | declares raw tables as dbt sources |
+
+![image.png](dbt%20Fundamentals/image%217.png)
 
 ### How they connect
 
