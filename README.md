@@ -3,8 +3,6 @@
 Date: February 13, 2025  
 My first dbt project build with the help and guidance on [dbt Fundamentals (VS Code)](https://learn.getdbt.com/learn/course/dbt-fundamentals-vs-code)
 
-Claude link: [https://claude.ai/share/e6d6c358-632a-43ff-8a87-f8c0a0b5aced](https://claude.ai/share/e6d6c358-632a-43ff-8a87-f8c0a0b5aced)
-
 # **1. dbt and Analytics Development Lifecycle**
 
 ## What is the dbt role?
@@ -187,7 +185,7 @@ select * from raw.stripe.payment;
 1. Open account details lower left to view the account name and configurations
 
 [connections.my_example_connection]
-account = "NCWRKRB-TP65402"
+account = "XXXXXXXXXXXXX"
 user = "HARYUVIRDATH"
 password = "XXXXXXXXXXXXXXXXXX"
 role = "ACCOUNTADMIN"
@@ -211,21 +209,21 @@ schema = "DBT_BHIPPLE"
 -- CREATE SCHEMAS (DATASETS)
 -- =========================================
 
-create schema if not exists `jaffle-shop-490812.raw_jaffle_shop`;
-create schema if not exists `jaffle-shop-490812.raw_stripe`;
-create schema if not exists `jaffle-shop-490812.analytics`;
+create schema if not exists `jaffle-shop.raw_jaffle_shop`;
+create schema if not exists `jaffle-shop.raw_stripe`;
+create schema if not exists `jaffle-shop.analytics`;
 
 -- =========================================
 -- CREATE TABLES
 -- =========================================
 
-create or replace table `jaffle-shop-490812.raw_jaffle_shop.customers` (
+create or replace table `jaffle-shop.raw_jaffle_shop.customers` (
   id int64,
   first_name string,
   last_name string
 );
 
-create or replace table `jaffle-shop-490812.raw_jaffle_shop.orders` (
+create or replace table `jaffle-shop.raw_jaffle_shop.orders` (
   id int64,
   user_id int64,
   order_date date,
@@ -233,7 +231,7 @@ create or replace table `jaffle-shop-490812.raw_jaffle_shop.orders` (
   _etl_loaded_at timestamp default current_timestamp()
 );
 
-create or replace table `jaffle-shop-490812.raw_stripe.payment` (
+create or replace table `jaffle-shop.raw_stripe.payment` (
   id int64,
   orderid int64,
   paymentmethod string,
@@ -247,21 +245,21 @@ create or replace table `jaffle-shop-490812.raw_stripe.payment` (
 -- CREATE EXTERNAL TABLES (untuk load)
 -- =========================================
 
-create or replace external table `jaffle-shop-490812.raw_jaffle_shop.customers_ext`
+create or replace external table `jaffle-shop.raw_jaffle_shop.customers_ext`
 options (
   format = 'CSV',
   uris = ['gs://dbt-tutorial-public/jaffle_shop_customers.csv'],
   skip_leading_rows = 1
 );
 
-create or replace external table `jaffle-shop-490812.raw_jaffle_shop.orders_ext`
+create or replace external table `jaffle-shop.raw_jaffle_shop.orders_ext`
 options (
   format = 'CSV',
   uris = ['gs://dbt-tutorial-public/jaffle_shop_orders.csv'],
   skip_leading_rows = 1
 );
 
-create or replace external table `jaffle-shop-490812.raw_stripe.payment_ext`
+create or replace external table `jaffle-shop.raw_stripe.payment_ext`
 options (
   format = 'CSV',
   uris = ['gs://dbt-tutorial-public/stripe_payments.csv'],
@@ -272,22 +270,22 @@ options (
 -- LOAD DATA (INSERT FROM EXTERNAL TABLES)
 -- =========================================
 
-insert into `jaffle-shop-490812.raw_jaffle_shop.customers` (id, first_name, last_name)
+insert into `jaffle-shop.raw_jaffle_shop.customers` (id, first_name, last_name)
 select 
   cast(id as int64) as id, 
   first_name, 
   last_name
-from `jaffle-shop-490812.raw_jaffle_shop.customers_ext`;
+from `jaffle-shop.raw_jaffle_shop.customers_ext`;
 
-insert into `jaffle-shop-490812.raw_jaffle_shop.orders` (id, user_id, order_date, status)
+insert into `jaffle-shop.raw_jaffle_shop.orders` (id, user_id, order_date, status)
 select 
   cast(id as int64) as id,
   cast(user_id as int64) as user_id,
   parse_date('%Y-%m-%d', order_date) as order_date,
   status
-from `jaffle-shop-490812.raw_jaffle_shop.orders_ext`;
+from `jaffle-shop.raw_jaffle_shop.orders_ext`;
 
-insert into `jaffle-shop-490812.raw_stripe.payment` (id, orderid, paymentmethod, status, amount, created)
+insert into `jaffle-shop.raw_stripe.payment` (id, orderid, paymentmethod, status, amount, created)
 select 
   cast(id as int64) as id,
   cast(orderid as int64) as orderid,
@@ -295,21 +293,19 @@ select
   status,
   cast(amount as int64) as amount,
   parse_date('%Y-%m-%d', created) as created
-from `jaffle-shop-490812.raw_stripe.payment_ext`;
+from `jaffle-shop.raw_stripe.payment_ext`;
 
 -- =========================================
 -- VERIFY DATA
 -- =========================================
 
-select * from `jaffle-shop-490812.raw_jaffle_shop.customers`;
-select * from `jaffle-shop-490812.raw_jaffle_shop.orders`;
-select * from `jaffle-shop-490812.raw_stripe.payment`;
+select * from `jaffle-shop.raw_jaffle_shop.customers`;
+select * from `jaffle-shop.raw_jaffle_shop.orders`;
+select * from `jaffle-shop.raw_stripe.payment`;
 ```
 
-The error:
-Access Denied: BigQuery BigQuery: Permission denied while globbing file pattern. yuditya.artha@gmail.com does not have storage.objects.get access to the Google Cloud Storage object. Permission 'storage.objects.get' denied on resource (or it may not exist). Please make sure gs://dbt-tutorial-public/jaffle_shop_customers.csv is accessible via appropriate IAM roles, e.g. Storage Object Viewer or Storage Object Creator.
 
-1. Go to IAM and admin > service accounts ([https://console.cloud.google.com/iam-admin/serviceaccounts?project=jaffle-shop-490812](https://console.cloud.google.com/iam-admin/serviceaccounts?project=jaffle-shop-490812))
+1. Go to IAM and admin > service accounts
 2. Create service_account > create and continue > select role: owner
 
 ![image.png](dbt%20Fundamentals/image%207.png)
@@ -406,8 +402,8 @@ default:
     dev:
       type: snowflake
       threads: 16
-      account: NCWRKRB-TP65402
-      user: HARYUVIRDATH
+      account: XXXXXXXXX
+      user: XXXXXXXX
       database: ANALYTICS
       warehouse: TRANSFORMING
       schema: dbt_bhipple
