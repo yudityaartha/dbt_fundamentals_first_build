@@ -186,7 +186,7 @@ select * from raw.stripe.payment;
 
 [connections.my_example_connection]
 account = "XXXXXXXXXXXXX"
-user = "HARYUVIRDATH"
+user = "XXXXXXXXXXXX"
 password = "XXXXXXXXXXXXXXXXXX"
 role = "ACCOUNTADMIN"
 warehouse = "TRANSFORMING"
