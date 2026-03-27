@@ -193,14 +193,12 @@ warehouse = "TRANSFORMING"
 database = "ANALYTICS"
 schema = "DBT_BHIPPLE"
 
-![image.png](dbt%20Fundamentals/image%205.png)
 
 ## 2c. Setting up BQ (needs purchased version)
 
 1. Register account on BQ
 2. Create new project (e.g. : Jaffle Shop)
 
-![image.png](dbt%20Fundamentals/image%206.png)
 
 1. SQL worksheet to create database and schema
 
