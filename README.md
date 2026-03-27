@@ -1,6 +1,6 @@
 # dbt Fundamentals
 
-Date: February 13, 2025
+Date: February 13, 2025  
 My first dbt project build with the help and guidance on [dbt Fundamentals (VS Code)](https://learn.getdbt.com/learn/course/dbt-fundamentals-vs-code)
 
 Claude link: [https://claude.ai/share/e6d6c358-632a-43ff-8a87-f8c0a0b5aced](https://claude.ai/share/e6d6c358-632a-43ff-8a87-f8c0a0b5aced)
