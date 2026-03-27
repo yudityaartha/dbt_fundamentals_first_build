@@ -1,3 +1,4 @@
+My first dbt project build with the help and guidance on [dbt Fundamentals (VS Code)](https://learn.getdbt.com/learn/course/dbt-fundamentals-vs-code)
 # dbt Fundamentals
 
 Date: February 13, 2025
