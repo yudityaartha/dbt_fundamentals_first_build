@@ -1,6 +1,6 @@
 # dbt Fundamentals
 
-Date: February 13, 2025  
+Date: March 27, 2026
 My first dbt project build with the help and guidance on [dbt Fundamentals (VS Code)](https://learn.getdbt.com/learn/course/dbt-fundamentals-vs-code)
 
 # **1. dbt and Analytics Development Lifecycle**
@@ -194,7 +194,7 @@ database = "ANALYTICS"
 schema = "DBT_BHIPPLE"
 
 
-## 2c. Setting up BQ (needs purchased version)
+## 2c. Setting up BQ (free tier available, billing optional for learning)
 
 1. Register account on BQ
 2. Create new project (e.g. : Jaffle Shop)
@@ -372,7 +372,7 @@ role:
 Database: analytics (from the sql workfile created on snowflake or the screenshot on 2b
 Warehouse: transforming (from the sql workfile created on snowflake or the screenshot on 2b
 schema: target dataset. In my case I named it dbt_bhipple
-3. After step 3, the dbt will automatically run `dbt debug` to verify if the setup has been performed successfully. We can run `dbt_debug` if want to verify it once more.
+3. After step 3, run `dbt debug` to verify if the setup has been performed successfully. 
 ✅ Expected: `All checks passed!`
 4. The steps above will results `profiles.yml` 
 5. profiles.yml located at `~/.dbt/profiles.yml` — outside the project folder, **not committed to Git**.
@@ -1123,9 +1123,8 @@ group by 1
 having total_amount < 0
 ```
 
-> If there is no payment < 0, the result of `dbt test` will passed, as **opposed** to what’s written in this query.
-But if there is payment > 0, the result of `dbt test` will dailed
-> 
+> If there is no payment < 0, the result of `dbt test` will passed, as **opposed** to what’s written in this query.  
+But if there is a negative payment amount (< 0), the result of dbt test will fail.
 
 ## Running test
 
