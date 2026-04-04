@@ -15,6 +15,8 @@ This project is my hands-on workspace for mastering dbt with a structured enviro
 
 ### Up Next
 
+- Refactoring SQL for Modularity
+- Analyses and Seeds
 - Advanced Materializations
 - Advanced Testing
 - Advanced Deployment
@@ -34,7 +36,7 @@ dbt_fundamentals/      -- root project, the contents can be added and modified l
 ├── snapshots/         
 ├── target/            
 ├── tests/             -- custom data tests
-└── dbt_project.yml
+├── dbt_project.yml
 └── chapters_learning_notes.md -- My learning notes. Both to train my articulation and prove my understandings to what I've learnt
 ```
 
