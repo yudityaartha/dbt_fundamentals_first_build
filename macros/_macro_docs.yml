@@ -1,0 +1,33 @@
+macros: 
+  - name: cents_to_dollars
+    description: "Convert a column from cents to dollars, with an optional parameter for the number of decimal places (default is 2). Returns a SQL expression that converts the specified column from cents to dollars and rounds it to the specified number of decimal places. Usage: cents_to_dollars('amount') or cents_to_dollars('amount', 3)."
+    arguments:
+      - name: column_name
+        description: "The name of the column that contains the amount in cents."
+        type: string
+      - name: decimals
+        description: "The number of decimal places to round to. Defaults to 2. Example: cents_to_dollars('amount', 3) rounds to 3 decimal places."
+        type: integer
+  - name: grant_select
+    description: "Grant select permissions on all tables and views in a specified schema to a specified role. Usage: grant_select('schema_name', 'role_name')."
+    arguments:
+      - name: schema
+        description: "The name of the schema on which to grant select permissions."
+        type: string
+      - name: role
+        description: "The name of the role to which select permissions will be granted."
+        type: string
+  - name: union_tables_by_prefix
+    description: "Generate a SQL query that unions all tables in a specified database and schema that start with a given prefix. Usage: union_tables_by_prefix(database='database_name', schema='schema_name', prefix='table_prefix')."
+    arguments:
+      - name: database
+        description: "The name of the database to search for tables."
+        type: string
+      - name: schema
+        description: "The name of the schema to search for tables."
+        type: string
+      - name: prefix
+        description: "The prefix that table names must start with to be included in the union."
+        type: string
+  - name: clean_stale_models
+    description: "Generate a SQL query that identifies models in the dbt project that have not been updated in the last 30 days. Usage: clean_stale_models()."

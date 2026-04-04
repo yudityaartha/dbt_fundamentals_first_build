@@ -1,8 +1,10 @@
 packages:
-- package: dbt-labs/codegen
-  name: codegen
-  version: 0.14.0
-- package: dbt-labs/dbt_utils
-  name: dbt_utils
-  version: 1.3.3
-sha1_hash: 728a40729e6615bf723d0300505f91ef5be208fa
+  - git: https://github.com/dbt-labs/dbt-codegen.git
+    revision: c4d495b8bb27a1448146dd7c928c56d95003c6f0
+  - package: brooklyn-data/dbt_artifacts
+    version: 2.10.0
+  - package: dbt-labs/dbt_utils
+    version: 1.3.3
+  - package: gitlabhq/snowflake_spend
+    version: 1.4.0
+sha1_hash: 7fafcee06036d1877c0100291ab6e631c5f6645a
