@@ -5,5 +5,3 @@ packages:
     version: 2.10.0
   - package: dbt-labs/dbt_utils
     version: 1.3.3
-  - package: gitlabhq/snowflake_spend
-    version: 1.4.0

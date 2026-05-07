@@ -1,0 +1,21 @@
+jaffle_shop:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: <YOUR_SNOWFLAKE_ACCOUNT>
+      user: <YOUR_SNOWFLAKE_USER>
+      password: <YOUR_SNOWFLAKE_PASSWORD>
+      role: <YOUR_SNOWFLAKE_ROLE>
+      warehouse: <YOUR_SNOWFLAKE_WAREHOUSE>
+      database: <YOUR_SNOWFLAKE_DATABASE>
+      schema: <YOUR_SNOWFLAKE_SCHEMA>
+      threads: 1
+      client_session_keep_alive: False
+      query_tag: "dbt_fusion_migration"
+
+# Notes:
+# - Replace placeholders with your Snowflake account details.
+# - If you prefer environment variables, use env_var('MY_ENV_VAR') for password/user/etc.
+# - To keep this profile local, copy this file to C:\Users\Yuditya Artha\.dbt\profiles.yml.
+# - Alternatively, run dbt with --profiles-dir . if you want the project root to hold the profile.

@@ -38,6 +38,6 @@ models:
     marts:
       +materialized: table #final tables are usually materialized as tables, but it can be changed to view if needed
     snowflake_spend:
-      +enabled: True
+      +enabled: False
     demo: 
       +materialized: view

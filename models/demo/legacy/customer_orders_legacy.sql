@@ -1,4 +1,5 @@
-SELECT 
+{{ config(enabled=false) }}
+SELECT
     orders.id AS order_id,
     orders.user_id As customer_id,
     last_name AS surname,
