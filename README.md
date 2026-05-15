@@ -12,11 +12,11 @@ This project is my hands-on workspace for mastering dbt with a structured enviro
 
 - **dbt Fundamentals** — Models, seeds, tests, documentation, sources, and deployment basics. First GitHub commit pushed from this project.
 - **Jinja, Macros, and Packages** — Jinja templating, writing custom macros (`grant_select`, `clean_stale_models`, `union_tables_by_prefix`), installing and using dbt packages, `generate_schema_name` override, environment-based schema routing.
+  - **Refactoring SQL for Modularity** — Improve sql readability and maintainability, breaks one single query into logical, named CTEs that read top-to-bottom like a story: import → logical → final.
+- **Analyses and Seeds** — Analyses are useful for training queries, one-off queries, and audits. Seeds are .csv files that live in the seeds folder
 
 ### Up Next
 
-- Refactoring SQL for Modularity
-- Analyses and Seeds
 - Advanced Materializations
 - Advanced Testing
 - Advanced Deployment
