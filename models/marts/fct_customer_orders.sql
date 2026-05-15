@@ -2,108 +2,91 @@
 with customers as (
     select * from {{ ref('stg_jaffle_shop__customers') }}
 ),
-
 orders as (
-    select * from {{ ref('stg_jaffle_shop__orders') }}
-),
-
-payments as (
-    select * from {{ ref('stg_jaffle_shop__payments') }}
+    select * from {{ ref('int_orders') }}
 ),
 
 
-customer_order_history as (
+customer_orders as (
+    select orders.*,
+    customers.full_name,
+    customers.surname,
+    customers.given_name,
+    min(order_date) over (
+        partition by orders.customer_id
+    ) as customer_first_order_date,
 
-    select
-        customers.customer_id,
-        customers.full_name,
-        customers.surname,
-        customers.given_name,
-        min(order_date) as first_order_date,
+    min(valid_order_date) over (
+        partition by orders.customer_id
+    )as customer_first_non_returned_order_date,
 
-        min(
-            case 
-                when orders.order_status not in ('returned', 'return_pending') 
-                then order_date 
-            end) 
-            as first_non_returned_order_date,
+    max(valid_order_date) over (
+        partition by orders.customer_id
+    ) as customer_most_recent_non_returned_order_date,
 
-        max(
-            case 
-                when orders.order_status not in ('returned', 'return_pending') 
-                then order_date 
-            end) 
-            as most_recent_non_returned_order_date,
-            
-        coalesce(max(user_order_seq), 0) as order_count,
+    count(*) over (
+        partition by orders.customer_id
+    ) as customer_order_count,
 
-        coalesce(
-            count(case when orders.order_status != 'returned' then 1 end),
-            0) 
-        as non_returned_order_count,
+    -- coalesce(
+    --     count(case when orders.valid_order_date is not null then 1 end),
+    --     0) 
+    -- as non_returned_order_count,
 
-        sum(
-            case 
-            when orders.order_status not in ('returned', 'return_pending') 
-            then c.payment_amount
-            else 0 
-        end) 
-        as total_lifetime_value,
+    -- nvl2 is not supported in DuckDB; use CASE instead (nvl2 works in Oracle/Snowflake)
+    -- sum(
+    --     nvl2(
+    --         orders.valid_order_date, orders.order_value_dollars, 0)
+    -- ) as customer_non_returned_order_count,
 
-        sum(
-            case 
-                when orders.order_status not in ('returned', 'return_pending') 
-                then c.payment_amount
-                else 0 
-            end) / 
-            nullif(
-                count(
-                    case 
-                    when orders.order_status not in ('returned', 'return_pending')
-                    then 1 
-                end), 0
-            ) 
-        as avg_non_returned_order_value,
-        
-        array_agg(distinct orders.order_id) as order_ids
-        
-    from orders
+    sum(
+        case
+            when orders.valid_order_date is not null
+            then orders.order_value_dollars
+            else 0
+        end
+    ) over (partition by orders.customer_id) as customer_non_returned_order_count,
 
-    join customers
-    on orders.customer_id = customers.customer_id
+    sum(
+        case
+            when orders.valid_order_date is not null
+            then orders.order_value_dollars
+            else 0
+        end
+    ) over (partition by orders.customer_id) as customer_total_lifetime_value,
     
-    left outer join payments as c
-    on orders.order_id = c.order_id
+    array_agg(distinct orders.order_id) over(
+        partition by orders.customer_id
+    ) as customer_order_ids
+    from orders
+    inner join customers
+    on orders.customer_id = customers.customer_id
+),
+   average_customer_order_totals as (
+    SELECT
+    customer_orders.*,
+    customer_total_lifetime_value / customer_non_returned_order_count as average_non_returned_order_value
+    from customer_orders
+    ),
 
-    where orders.order_status not in ('pending') and c.payment_status != 'failed'
-    group by customers.customer_id, customers.full_name, customers.surname, customers.given_name
-
-) 
 
 -- final CTE
+final as (
 
 select 
     
-    orders.order_id,
-    orders.customer_id,
-    customers.surname,
-    customers.given_name,
-    first_order_date,
-    order_count,
-    total_lifetime_value,
-    payment_amount as order_value_dollars,
-    orders.order_status,
-    c.payment_status
+    order_id,
+    customer_id,
+    surname,
+    given_name,
+    customer_first_order_date as first_order_date,
+    customer_order_count as order_count,
+    customer_total_lifetime_value,
+    order_value_dollars,
+    order_status,
+    payment_status
 
-from orders
+from average_customer_order_totals as orders
+)
 
-join customers
-on orders.customer_id = customers.customer_id
-
-join customer_order_history
-on orders.customer_id = customer_order_history.customer_id
-
-left outer join payments as c
-on orders.order_id = c.order_id
-
-where c.payment_status != 'failed'
+select * from final

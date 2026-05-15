@@ -1,0 +1,27 @@
+{
+    "sqltools.connections": [
+        {
+            "name": "DuckDB",
+            "accessMode": "Read Only",
+            "previewLimit": 50,
+            "driver": "DuckDB"
+        }
+    ],
+    "sqltools.useNodeRuntime": true,
+    "workbench.editorAssociations": {
+        "*.copilotmd": "vscode.markdown.preview.editor",
+        "*.parquet": "duckdb.dataFileViewer",
+        "*.csv": "duckdb.dataFileViewer",
+        "*.tsv": "duckdb.dataFileViewer",
+        "*.xlsx": "duckdb.dataFileViewer"
+    },
+    "duckdb.defaultDatabase": "jaffle_shop",
+    "duckdb.databases": [
+        {
+            "alias": "jaffle_shop",
+            "type": "file",
+            "path": "c:\\github_project\\dbt_fundamentals\\dbt_fundamentals_first_build\\jaffle_shop.duckdb",
+            "attached": false
+        }
+    ]
+}
